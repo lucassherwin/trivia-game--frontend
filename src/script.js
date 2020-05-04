@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('https://opentdb.com/api_category.php')
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             data['trivia_categories'].forEach(category => {
                 const categorySelect = document.getElementById('category')
                 let option = document.createElement('option')
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getQuestion(results, index) {
         let i = index
         let question = results[i]
+        console.log(question)
         console.log(question['question']) 
     };
     
