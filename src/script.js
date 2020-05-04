@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     };
     
-    // let answerButton = document.getElementsByClassName('answer-button')
     getCategories()
 //End of DOMContentLoaded
 })
