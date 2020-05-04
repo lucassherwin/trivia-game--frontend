@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('https://opentdb.com/api_category.php')
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             data['trivia_categories'].forEach(category => {
                 const categorySelect = document.getElementById('category')
                 let option = document.createElement('option')
@@ -35,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             let results = data['results']
+            // console.log(results)
             getQuestion(results, 0)
         })
     };
@@ -44,7 +44,39 @@ document.addEventListener('DOMContentLoaded', () => {
         let i = index
         let question = results[i]
         console.log(question)
-        console.log(question['question']) 
+
+        let answerArr = []
+        let questionText = document.getElementById('question-text')
+        questionText.innerText = question['question']
+
+        let choicesText = document.getElementById('choices')
+        let correctAnswer = question['correct_answer']
+        answerArr.push(correctAnswer)
+
+        question['incorrect_answers'].forEach(q => {
+            answerArr.push(q)
+        })
+        choicesText.innerText = ''  //this works as of may 4 15:57
+        answerArr.forEach(ans => {
+            let ansBtn = document.createElement('button')
+            ansBtn.className = 'answer-button'
+            ansBtn.textContent = ans
+            choicesText.appendChild(ansBtn)
+        })
+
+        choicesText.addEventListener('click', event => {
+            event.preventDefault();
+            // console.log(event.target);
+            if(event.target.innerText === correctAnswer)
+            {
+                // console.log('correct!!!')
+                i += 1 //increase
+                getQuestion(res, i);
+            }
+            else{
+                console.log('cors error haha jk')
+            }
+        })
     };
     
     getCategories()
