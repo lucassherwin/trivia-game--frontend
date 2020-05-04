@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function getQuestion(results, index) {
-        
+        let res = results;
         let i = index
         let question = results[i]
         console.log(question)
@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
         questionText.innerText = question['question']
 
         let choicesText = document.getElementById('choices')
-        
-        answerArr.push(question['correct_answer'])
+        let correctAnswer = question['correct_answer']
+        answerArr.push(correctAnswer)
 
         question['incorrect_answers'].forEach(q => {
             answerArr.push(q)
@@ -64,16 +64,22 @@ document.addEventListener('DOMContentLoaded', () => {
             choicesText.appendChild(ansBtn)
         })
 
-        let answerButton = document.querySelector('.answer-button')
-        answerButton.addEventListener('click', (event) => {
+        choicesText.addEventListener('click', event => {
             event.preventDefault();
-            console.log(event.target);
+            // console.log(event.target);
+            if(event.target.innerText === correctAnswer)
+            {
+                // console.log('correct!!!')
+                i += 1 //increase
+                getQuestion(res, i);
+            }
+            else{
+                console.log('cors error haha jk')
+            }
         })
     };
     
     // let answerButton = document.getElementsByClassName('answer-button')
-    
-    // generateGame()
     getCategories()
 //End of DOMContentLoaded
 })
