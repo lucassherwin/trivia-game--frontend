@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             let results = data['results']
-            // console.log(results)
             getQuestion(results, 0)
         })
     };
