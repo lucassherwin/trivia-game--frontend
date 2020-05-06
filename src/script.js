@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     function getCategories() {
         fetch('https://opentdb.com/api_category.php')
         .then(response => response.json())
@@ -15,18 +14,51 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
     };
-
+    
     document.addEventListener('submit', (event) => {
         //eventually add to database
         event.preventDefault();
 
         let form = event.target
+        console.log(event.target.id)
         // console.log(form.category.value)
-        let categoryId = form.category.value
-        let difficulty = form.difficulty.value
-
-        generateGame(categoryId, difficulty)
+        // let startBtn = document.getElementById('game-start')
+        // let loginBtn = document.getElementById('login-button')
+        if(event.target.id === 'game-form')
+        {
+            console.log(event.target.id)
+            let categoryId = form.category.value
+            let difficulty = form.difficulty.value
+            generateGame(categoryId, difficulty)
+        }
+        else if(event.target.id === 'login-form')
+        {
+            //login method
+            //get userName from form
+            let userName = form.value
+            // login(userName)
+            login(userName)
+            console.log(event.target.id)
+        }
     });
+
+    function login(userName)
+    {
+        let userObj = {name: userName}
+
+        fetch('http://localhost:3000/users', {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin' : '*',
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            },
+            body: JSON.stringify(userObj)
+        })
+        .then(resp => resp.json)
+        .then(console.log)
+
+    }
     
     //call this on event listener
     function generateGame(categoryId, difficulty) {
@@ -34,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             let results = data['results']
-            // console.log(results)
             getQuestion(results, 0)
         })
     };
@@ -44,6 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let i = index
         let question = results[i]
         console.log(question)
+        if(typeof question === 'undefined')
+        {
+            console.log('game over')
+            //game over method
+        }
 
         let answerArr = []
         let questionText = document.getElementById('question-text')
@@ -63,19 +99,24 @@ document.addEventListener('DOMContentLoaded', () => {
             ansBtn.textContent = ans
             choicesText.appendChild(ansBtn)
         })
-
+        let score = document.getElementById('score');
         choicesText.addEventListener('click', event => {
             event.preventDefault();
-            // console.log(event.target);
-            if(event.target.innerText === correctAnswer)
-            {
-                // console.log('correct!!!')
-                i += 1 //increase
-                getQuestion(res, i);
-            }
-            else{
-                console.log('cors error haha jk')
-            }
+            // console.log(event.target)
+                if(event.target.innerText === correctAnswer)
+                {
+                    // console.log('correct!!!')
+                    console.log(i);
+                    i += 1; //increase
+                    
+                    score.innerText = `Score: ${i}`;
+                    getQuestion(res, i);
+                }
+                else
+                {
+                    console.log('cors error haha jk')
+                }
+            // console.log('game over');
         })
     };
     
