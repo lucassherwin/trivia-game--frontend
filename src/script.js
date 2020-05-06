@@ -105,8 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
             answerArr.push(q)
         })
         choicesText.innerText = ''  //this works as of may 4 15:57
-        shuffleArray(answerArr) //this was added without Lucas
-        answerArr.forEach(ans => {
+        let shuffledArray = shuffleArray(answerArr)
+        showQuestion(shuffledArray, res, i, correctAnswer)
+    };
+
+    function showQuestion(shuffledArray, res, i, correctAnswer){
+        let choicesText = document.getElementById('choices')
+        shuffledArray.forEach(ans => {
             let ansBtn = document.createElement('button')
             ansBtn.className = 'answer-button'
             ansBtn.textContent = ans
@@ -118,24 +123,38 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log(event.target)
                 if(event.target.innerText === correctAnswer)
                 {
-                    console.log(`Correct ${event.target.innerText}`)
+                    console.log('if')
+                    // console.log(`Correct ${event.target.innerText}`)
                     // console.log(i);
                     i += 1; //increase
-                    
-                    score.innerText = `Score: ${i}`;
+                    let currentScore = i
+                    score.innerText = `Score: ${currentScore}`;
                     let leaderboard = document.getElementById('leaderboard')
                     let userId = leaderboard.lastElementChild.dataset.id
-                    updateScore(i, userId)
+                    updateScore(currentScore, userId)
                     let currentLi = leaderboard.lastElementChild
-                    currentLi.innerText = `${currentLi.id} Score: ${i}`
-                    // if (i === 11){
-                    //   alert('GAME OVER')  
-                    // }
+                    currentLi.innerText = `${currentLi.id} Score: ${currentScore}`
+                    if (i === 10){
+                      let questionArea = document.getElementById('question-text')
+                      let answerChoices = document.getElementById('choices')
+                      questionArea.innerText = ''  
+                      answerChoices.innerHTML = ''
+                    }
                     console.log(res)
                     console.log(i)
                     getQuestion(res, i);
                 } else if (event.target.innerText !== correctAnswer){
-                    console.log(`Incorrect ${event.target.innerText}`)
+                    console.log('else if')
+                    i += 1
+                    if (i === 10){
+                        let questionArea = document.getElementById('question-text')
+                        let answerChoices = document.getElementById('choices')
+                        questionArea.innerText = ''  
+                        answerChoices.innerHTML = ''
+                      }
+                    // console.log(`Incorrect ${event.target.innerText}`)
+                    getQuestion(res, i)
+                    // console.log(i)
                 }
                 // else
                 // {
@@ -143,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // }
             // console.log('game over');
         })
-    };
+    }
 
     function updateScore(score, user){
         fetch(`http://localhost:3000/users/${user}`, {
