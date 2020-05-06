@@ -61,7 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let leaderboard = document.getElementById('leaderboard')
             let li = document.createElement('li')
             li.dataset.id = user.id
-            li.textContent = user.name
+            li.id = user.name
+            li.textContent = user.name 
             leaderboard.append(li)
         })
     }
@@ -116,7 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     i += 1; //increase
                     
                     score.innerText = `Score: ${i}`;
-                    // updateScore(i, user)
+                    let leaderboard = document.getElementById('leaderboard')
+                    let userId = leaderboard.lastElementChild.dataset.id
+                    updateScore(i, userId)
+                    let currentLi = leaderboard.lastElementChild
+                    currentLi.innerText = `${currentLi.id} Score: ${i}`
                     getQuestion(res, i);
                 }
                 else
