@@ -4,31 +4,36 @@
 <title>Trivia Game</title>
 <meta charset="utf-8">
 <script src='src/script.js'></script>
+<link href="styles.css" rel="styles">
 </head>
 <body>
-    <header>
-    <!-- <button id='login'>Login</button>  -->
-    <form id='login-form'>
-        <button type='submit' id='login-button'>Log In!!!!!!!</button>
-        <input type='text' name='user'></input>
-    </form> 
-    </header>
-    <form id='game-form'>
-        <select id='category' name='category'>
-        </select>
-        <select id='difficulty' name='difficulty'> 
-            <option value='easy'>Easy</option> 
-            <option value='medium'>Medium</option> 
-            <option value='hard'>Hard</option>  
-        </select>
-        <button type='submit' id='game-start'>Submit</button>
-    </form>
+    <div class="container">
+        <div class="header">
+            <form id='login-form'>
+            <input type='text' name='user'></input>
+            <button type='submit' id='login-button'>Log In!!!!!!!</button>
+            </form> 
+        </div>
+        <div>
+            <form id='game-form'>
+            <select id='category' name='category'>
+            </select>
+            <select id='difficulty' name='difficulty'> 
+                <option value='easy'>Easy</option> 
+                <option value='medium'>Medium</option> 
+                <option value='hard'>Hard</option>  
+            </select>
+            <button type='submit' id='game-start'>Submit</button>
+            </form>
+        </div>
 
-    <p id='score'>Score:</p>
+        <p id='score'>Score:</p>
 
-    <p id='question-text'></p>
-    <ul id='choices'></ul>
+        <p id='question-text'></p>
+        <ul id='choices'></ul>
 
-    <ul id='leaderboard'></ul>
+        <ul id='leaderboard'>   
+        </ul>
+    </div>
 </body>
 </html>

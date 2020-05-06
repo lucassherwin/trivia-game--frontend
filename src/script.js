@@ -9,37 +9,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 option.value = category['id']
                 option.textContent = category['name']
                 option.dataset.id = category['id']
-                // option.setAttribute('id', category['id'])
                 categorySelect.append(option)
             })
         })
     };
     
     document.addEventListener('submit', (event) => {
-        //eventually add to database
         event.preventDefault();
 
         let form = event.target
-        console.log(event.target.id)
-        // console.log(form.category.value)
-        // let startBtn = document.getElementById('game-start')
-        // let loginBtn = document.getElementById('login-button')
         if(event.target.id === 'game-form')
         {
-            console.log(event.target.id)
             let categoryId = form.category.value
             let difficulty = form.difficulty.value
             generateGame(categoryId, difficulty)
         }
         else if(event.target.id === 'login-form')
         {
-            //login method
-            //get userName from form
             let userName = form.user.value
-            // console.log(userName)
-            // login(userName)
             login(userName)
-            console.log(event.target.id)
+            form.reset()
         }
     });
 
@@ -98,11 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let i = index
         let question = results[i]
         console.log(question)
-        if(typeof question === 'undefined')
-        {
-            console.log('game over')
-            //game over method
-        }
+        // if(typeof question === 'undefined')
+        // {
+        //     console.log('game over')
+        //     //game over method
+        // }
 
         let answerArr = []
         let questionText = document.getElementById('question-text')
@@ -116,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             answerArr.push(q)
         })
         choicesText.innerText = ''  //this works as of may 4 15:57
+        shuffleArray(answerArr) //this was added without Lucas
         answerArr.forEach(ans => {
             let ansBtn = document.createElement('button')
             ansBtn.className = 'answer-button'
@@ -128,8 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log(event.target)
                 if(event.target.innerText === correctAnswer)
                 {
-                    // console.log('correct!!!')
-                    console.log(i);
+                    console.log(`Correct ${event.target.innerText}`)
+                    // console.log(i);
                     i += 1; //increase
                     
                     score.innerText = `Score: ${i}`;
@@ -138,15 +128,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateScore(i, userId)
                     let currentLi = leaderboard.lastElementChild
                     currentLi.innerText = `${currentLi.id} Score: ${i}`
-                    if (i === 10){
-                      alert('GAME OVER')  
-                    }
+                    // if (i === 11){
+                    //   alert('GAME OVER')  
+                    // }
+                    console.log(res)
+                    console.log(i)
                     getQuestion(res, i);
+                } else if (event.target.innerText !== correctAnswer){
+                    console.log(`Incorrect ${event.target.innerText}`)
                 }
-                else
-                {
-                    console.log('cors error haha jk')
-                }
+                // else
+                // {
+                //     console.log('cors error haha jk')
+                // }
             // console.log('game over');
         })
     };
@@ -165,6 +159,16 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(console.log)
     };
+
+    function shuffleArray(array){ // this will shuffle the answers, added without Lucas
+        for (let i = array.length -1; i > 0; i--){
+          let j = Math.floor(Math.random() * (i + 1))
+          let temp = array[i]
+          array[i] = array[j]
+          array[j] = temp
+        }
+        return array
+      };
     
     getCategories()
 //End of DOMContentLoaded
