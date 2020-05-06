@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             //login method
             //get userName from form
-            let userName = form.value
+            let userName = form.user.value
+            // console.log(userName)
             // login(userName)
             login(userName)
             console.log(event.target.id)
@@ -55,9 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify(userObj)
         })
-        .then(resp => resp.json)
-        .then(console.log)
-
+        .then(resp => resp.json())
+        .then(user => {
+            let leaderboard = document.getElementById('leaderboard')
+            let li = document.createElement('li')
+            li.dataset.id = user.id
+            li.textContent = user.name
+            leaderboard.append(li)
+        })
     }
     
     //call this on event listener
@@ -110,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     i += 1; //increase
                     
                     score.innerText = `Score: ${i}`;
+                    // updateScore(i, user)
                     getQuestion(res, i);
                 }
                 else
@@ -117,6 +124,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('cors error haha jk')
                 }
             // console.log('game over');
+        })
+    };
+
+    function updateScore(score, user){
+        fetch(`http://localhost:3000/users/${user}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            },
+            body: JSON.stringify({
+                score: score
+            })
         })
     };
     
