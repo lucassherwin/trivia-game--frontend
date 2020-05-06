@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function login(userName)
     {
+        getUsers()
         let userObj = {name: userName}
 
         fetch('http://localhost:3000/users', {
@@ -64,6 +65,21 @@ document.addEventListener('DOMContentLoaded', () => {
             li.id = user.name
             li.textContent = user.name 
             leaderboard.append(li)
+        })
+    };
+
+    function getUsers() {
+        fetch('http://localhost:3000/users')
+        .then(response => response.json())
+        .then(users => {
+            let leaderboard = document.getElementById('leaderboard')
+            users.forEach(user => {
+                let li = document.createElement('li')
+                li.dataset.id = user.id
+                li.id = user.name
+                li.textContent = `${user.name} Score: ${user.score}`
+                leaderboard.append(li)
+            })
         })
     }
     
@@ -122,6 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateScore(i, userId)
                     let currentLi = leaderboard.lastElementChild
                     currentLi.innerText = `${currentLi.id} Score: ${i}`
+                    if (i === 10){
+                      alert('GAME OVER')  
+                    }
                     getQuestion(res, i);
                 }
                 else
@@ -143,6 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 score: score
             })
         })
+        .then(response => response.json())
+        .then(console.log)
     };
     
     getCategories()
