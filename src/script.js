@@ -31,11 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
             form.reset()
         }
     });
-
+    let currentScore;
     function login(userName)
     {
         getUsers()
-        let userObj = {name: userName}
+        document.getElementById('score').innerText = 'Score: ' //this resets the score on the DOM when a new user logs in
+        currentScore = 0;
+        let userObj = {name: userName, score: currentScore}
 
         fetch('http://localhost:3000/users', {
             method: 'POST',
@@ -48,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(resp => resp.json())
         .then(user => {
+            console.log(user)
             let leaderboard = document.getElementById('leaderboard')
             let li = document.createElement('li')
             li.dataset.id = user.id
@@ -73,96 +76,115 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     //call this on event listener
+    let index;
+    let results;
     function generateGame(categoryId, difficulty) {
         fetch(`https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=multiple`)
         .then(response => response.json())
         .then(data => {
-            let results = data['results']
-            getQuestion(results, 0)
+            results = data['results']
+            // console.log(results);
+            index = 0;
+            getQuestion(results, index) //results -> array of all the question objects
         })
     };
 
+    let correctAnswer; //gets assigned in getQuestion
+    //should get reassigned each time getQuestion is called to the correct value
+
     function getQuestion(results, index) {
-        let res = results;
+        // let res = results; //all question objects
+        //dont need res becuase using the parameter works
         let i = index
+        // console.log(i);
         let question = results[i]
-        console.log(question)
-        // if(typeof question === 'undefined')
-        // {
-        //     console.log('game over')
-        //     //game over method
-        // }
+        
+        console.log(question) //question object
 
         let answerArr = []
+
+        //put question text on the screen
         let questionText = document.getElementById('question-text')
         questionText.innerText = question['question']
-
-        let choicesText = document.getElementById('choices')
-        let correctAnswer = question['correct_answer']
+        
+        //save correct answer to the array
+        correctAnswer = question['correct_answer']
         answerArr.push(correctAnswer)
 
+        //add the incorrect answers to the array
         question['incorrect_answers'].forEach(q => {
             answerArr.push(q)
         })
+
+        //remove the buttons with the choices -> for reset
+        let choicesText = document.getElementById('choices')
         choicesText.innerText = ''  //this works as of may 4 15:57
+        
+        //shuffle the answers
         let shuffledArray = shuffleArray(answerArr)
-        showQuestion(shuffledArray, res, i, correctAnswer)
+        showAnswers(shuffledArray)
     };
 
-    function showQuestion(shuffledArray, res, i, correctAnswer){
+    function showAnswers(shuffledArray)
+    {
         let choicesText = document.getElementById('choices')
+        // let index = i;
+        //add each button answer to the DOM
         shuffledArray.forEach(ans => {
             let ansBtn = document.createElement('button')
             ansBtn.className = 'answer-button'
             ansBtn.textContent = ans
             choicesText.appendChild(ansBtn)
         })
-        let score = document.getElementById('score');
-        choicesText.addEventListener('click', event => {
-            event.preventDefault();
-            // console.log(event.target)
-                if(event.target.innerText === correctAnswer)
-                {
-                    console.log('if')
-                    // console.log(`Correct ${event.target.innerText}`)
-                    // console.log(i);
-                    i += 1; //increase
-                    let currentScore = i
-                    score.innerText = `Score: ${currentScore}`;
-                    let leaderboard = document.getElementById('leaderboard')
-                    let userId = leaderboard.lastElementChild.dataset.id
-                    updateScore(currentScore, userId)
-                    let currentLi = leaderboard.lastElementChild
-                    currentLi.innerText = `${currentLi.id} Score: ${currentScore}`
-                    if (i === 10){
-                      let questionArea = document.getElementById('question-text')
-                      let answerChoices = document.getElementById('choices')
-                      questionArea.innerText = ''  
-                      answerChoices.innerHTML = ''
-                    }
-                    console.log(res)
-                    console.log(i)
-                    getQuestion(res, i);
-                } else if (event.target.innerText !== correctAnswer){
-                    console.log('else if')
-                    i += 1
-                    if (i === 10){
-                        let questionArea = document.getElementById('question-text')
-                        let answerChoices = document.getElementById('choices')
-                        questionArea.innerText = ''  
-                        answerChoices.innerHTML = ''
-                      }
-                    // console.log(`Incorrect ${event.target.innerText}`)
-                    getQuestion(res, i)
-                    // console.log(i)
-                }
-                // else
-                // {
-                //     console.log('cors error haha jk')
-                // }
-            // console.log('game over');
-        })
     }
+
+    let score = document.getElementById('score');
+    let choicesText = document.getElementById('choices')
+    choicesText.addEventListener('click', event => {
+        event.preventDefault();
+        // console.log(event.target)
+        let choice = event.target.innerText;
+
+        checkAnswer(choice, correctAnswer)
+    })
+
+    function checkAnswer(choice, correctAnswer)
+    {
+        if(choice === correctAnswer)
+        {
+            console.log('correct');
+            index += 1; //increase
+            currentScore += 1;
+            score.innerText = `Score: ${currentScore}`;
+            let leaderboard = document.getElementById('leaderboard')
+            let userId = leaderboard.lastElementChild.dataset.id
+            updateScore(currentScore, userId)
+            let currentLi = leaderboard.lastElementChild
+            currentLi.innerText = `${currentLi.id} Score: ${currentScore}`
+            if (index === 10){
+                let questionArea = document.getElementById('question-text')
+                let answerChoices = document.getElementById('choices')
+                questionArea.innerText = ''  
+                answerChoices.innerHTML = ''
+            }
+            // console.log(res)
+            console.log(index)
+            getQuestion(results, index);
+        }
+        else
+        {
+            console.log('incorrect');
+            index += 1;
+            if(index === 10)
+            {
+                let questionArea = document.getElementById('question-text')
+                let answerChoices = document.getElementById('choices')
+                questionArea.innerText = ''  
+                answerChoices.innerHTML = ''
+            }
+            getQuestion(results, index)
+        }
+    }    
 
     function updateScore(score, user){
         fetch(`http://localhost:3000/users/${user}`, {
@@ -176,19 +198,30 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
         .then(response => response.json())
-        .then(console.log)
+        // .then(console.log)
+        .then()
     };
 
     function shuffleArray(array){ // this will shuffle the answers, added without Lucas
         for (let i = array.length -1; i > 0; i--){
-          let j = Math.floor(Math.random() * (i + 1))
-          let temp = array[i]
-          array[i] = array[j]
-          array[j] = temp
+            let j = Math.floor(Math.random() * (i + 1))
+            let temp = array[i]
+            array[i] = array[j]
+            array[j] = temp
         }
         return array
-      };
+    };
     
     getCategories()
-//End of DOMContentLoaded
+//end of DOMContentLoaded
 })
+
+/*
+What I did to fix the issue:
+Made a checkAnswer method and moved it outside of the eventListener
+I think that this was part of the issue
+Also made results and index global variables so that they could be accessed anywhere
+They are needed in several functions that are not connected
+Cleaned up parts of code and added lots of comments to diagnose the issue
+Not 100% sure why it was doing that but it works correctly now
+*/
