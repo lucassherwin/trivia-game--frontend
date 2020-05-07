@@ -1,18 +1,41 @@
 
-
-
-
 .container {
-    display: grid;
-    grid-gap: 5px;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 50px 350px 50px;
-    grid-template-areas:
-      "h h h h h h h h h h h h"
-      "m m c c c c c c c o o o "
+  display: grid;
+  grid-template-columns: 1fr, 1fr, 1fr;
+  grid-template-rows: 100px;
+  grid-template-areas:
+    "h h h"
+    "m c o"
+    "m f o"
 }
 
 .header {
-    grid-area: h;
-    text-align: center;
-  }
+  grid-area: h;
+  grid-column-start: 3;
+  grid-column-end: 3;
+} 
+
+.select {
+  grid-area: c;
+  text-align: center;
+}
+
+#score {
+  grid-area: c;
+  text-align: left;
+  padding: 15px 55px 15px 35px;
+} 
+
+#question-text {
+  grid-area: c;
+  padding: 50px 35px 25px 35px;
+}
+
+#choices {
+  grid-area: c;
+  padding-top: 100px;
+}
+
+#leaderboard {
+  grid-area: m;
+}
