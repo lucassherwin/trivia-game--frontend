@@ -65,13 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('http://localhost:3000/users')
         .then(response => response.json())
         .then(users => {
-            let leaderboard = document.getElementById('leaderboard')
-            users.forEach(user => {
-                let li = document.createElement('li')
-                li.dataset.id = user.id
-                li.id = user.name
-                li.textContent = `${user.name} Score: ${user.score}`
-                leaderboard.append(li)
+                users.sort(function(a, b) {
+                    return b.score - a.score;
+                })
+                let leaderboard = document.getElementById('leaderboard')
+                users.forEach(user => {
+                    let li = document.createElement('li')
+                    li.dataset.id = user.id
+                    li.id = user.name
+                    li.textContent = `${user.name} Score: ${user.score}`
+                    leaderboard.append(li)
+                // console.log(users)
             })
         })
     }
