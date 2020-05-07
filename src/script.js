@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentScore;
     function login(userName)
     {
+        document.getElementById('leaderboard').innerText = '';
         getUsers()
         document.getElementById('score').innerText = 'Score: ' //this resets the score on the DOM when a new user logs in
         currentScore = 0;
@@ -132,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //add each button answer to the DOM
         shuffledArray.forEach(ans => {
             let ansBtn = document.createElement('button')
-            ansBtn.className = 'answer-button'
+            ansBtn.className = 'button'
             ansBtn.textContent = ans
             choicesText.appendChild(ansBtn)
         })
@@ -166,6 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let answerChoices = document.getElementById('choices')
                 questionArea.innerText = ''  
                 answerChoices.innerHTML = ''
+                // let gameOverMessage = document.getElementById('exampleModal1');
+                // gameOverMessage.removeAttribute('hidden');
             }
             // console.log(res)
             console.log(index)
@@ -181,6 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 let answerChoices = document.getElementById('choices')
                 questionArea.innerText = ''  
                 answerChoices.innerHTML = ''
+                // let gameOverMessage = document.getElementById('exampleModal1');
+                // gameOverMessage.removeAttribute('hidden');
+
             }
             getQuestion(results, index)
         }
