@@ -9,21 +9,32 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+    <!-- <div class="grid-x grid-margin-x"></div> -->
+        <!-- <div class="header"> -->
+            <!-- <div class="cell small-12"> -->
             <form id='login-form'>
-            <input type='text' name='user'></input>
-            <button type='submit' id='login-button'>Log In!!!!!!!</button>
+            <!-- <label>Log In
+            <input type='text' name='user' placeholder="user name"></input>
+            </label> -->
+            <label>User Name
+                <input type="text" placeholder="name" aria-describedby="exampleHelpText" style="width: 25%;">
+              </label>
+              <p class="help-text" id="exampleHelpText">Enter Your Name Here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+            <button type='submit' id='login-button' class="success button">Log In!!!!!!!</button>
             </form> 
-        </div>
+        <!-- </div> -->
         <div class='select'>
             <form id='game-form'>
-            <select id='category' name='category'>
+            <select id='category' name='category' style="width: 50%;">
             </select>
-            <select id='difficulty' name='difficulty'> 
+            <br>
+            
+            <select id='difficulty' name='difficulty' style="width: 25%;"> 
                 <option value='easy'>Easy</option> 
                 <option value='medium'>Medium</option> 
                 <option value='hard'>Hard</option>  
             </select>
+            <br>
             <button type='submit' id='game-start'>Submit</button>
             </form>
         </div>
@@ -31,7 +42,10 @@
         <p id='score'>Score:</p>
 
         <p id='question-text'></p>
+
+        <div class='answer-buttons'>
         <ul id='choices'></ul>
+        </div>
 
         <ul id='leaderboard'>   
         </ul>
