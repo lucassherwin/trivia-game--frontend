@@ -9,49 +9,37 @@
 </head>
 <body>
     <div class="container">
-    <!-- <div class="grid-x grid-margin-x"></div> -->
-        <!-- <div class="header"> -->
-            <!-- <div class="cell small-12"> -->
+        
+        <div style='float: right'>
             <form id='login-form'>
-            <!-- <label>Log In
-            <input type='text' name='user' placeholder="user name"></input>
-            </label> -->
+                <p id='score'>Score:</p>
             <label>User Name
-                <input type="text" placeholder="name" aria-describedby="exampleHelpText" style="width: 25%;">
-              </label>
-              <p class="help-text" id="exampleHelpText">Enter Your Name Here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
-            <button type='submit' id='login-button' class="success button">Log In!!!!!!!</button>
-            </form> 
-        <!-- </div> -->
-        <div class='select'>
+                <input type="text" name='user' placeholder="name" aria-describedby="exampleHelpText" style="width: 80%;">
+            </label>
+            <p class="help-text" id="exampleHelpText">Enter Your Name Here!</p>
+            <button type='submit' id='login-button' class="success button">Log In!!!!!!!</button>    
+            </form>
+        </div>
+            <!-- </form>  -->
+        <div class='select' style='text-align: center;'>
             <form id='game-form'>
-<<<<<<< HEAD
-            <select id='category' name='category' style="width: 50%;">
+            <select id='category' name='category' style="width: 30%;">
             </select>
             <br>
             
             <select id='difficulty' name='difficulty' style="width: 25%;"> 
-=======
-            <label for='category'>Categories:</label>   
-            <select id='category' name='category'>
-            </select>
-            <label for="difficulty">Difficulty:</label>
-            <select id='difficulty' name='difficulty'> 
->>>>>>> ea77a526feaea053e2ad4c68da36fe16f53c0cb9
                 <option value='easy'>Easy</option> 
                 <option value='medium'>Medium</option> 
                 <option value='hard'>Hard</option>  
             </select>
             <br>
-            <button type='submit' id='game-start'>Submit</button>
+            <button type='submit' id='game-start' class='large button'>Submit</button>
             </form>
         </div>
 
-        <p id='score'>Score:</p>
+        <p id='question-text' style="text-align: center;"></p>
 
-        <p id='question-text'></p>
-
-        <div class='answer-buttons'>
+        <div class='answer-buttons' style="text-align: center; position: fixed; left: 400px;">
         <ul id='choices'></ul>
         </div>
 
