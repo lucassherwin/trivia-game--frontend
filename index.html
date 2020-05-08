@@ -4,15 +4,16 @@
 <title>Trivia Game</title>
 <meta charset="utf-8">
 <script src='src/script.js'></script>
-<!-- <link href="css/styles.css" rel="stylesheet"> -->
+<link href="css/styles.css" rel="stylesheet">
 <link rel="stylesheet" href="css/foundation.css">
 </head>
 <body>
+    <header><h1 style='color: whitesmoke;'>QUIZDOM</h1></header>
     <div class="container">
         
         <div style='float: right'>
             <form id='login-form'>
-                <p id='score'>Score:</p>
+                <p id='score' style="padding-top: 20px">Score:</p>
             <label>User Name
                 <input type="text" name='user' placeholder="name" aria-describedby="exampleHelpText" style="width: 80%;">
             </label>
@@ -21,13 +22,13 @@
             </form>
         </div>
             <!-- </form>  -->
-        <div class='select' style='text-align: center;'>
+        <div class='select' style='text-align: center; padding-top: 25px'>
             <form id='game-form'>
             <select id='category' name='category' style="width: 30%;">
             </select>
             <br>
             
-            <select id='difficulty' name='difficulty' style="width: 25%;"> 
+            <select id='difficulty' name='difficulty' placeholder="difficulty" style="width: 25%;"> 
                 <option value='easy'>Easy</option> 
                 <option value='medium'>Medium</option> 
                 <option value='hard'>Hard</option>  
@@ -37,13 +38,13 @@
             </form>
         </div>
 
-        <p id='question-text' style="text-align: center;"></p>
+        <p id='question-text' style="text-align: center; padding-top: 20px;"></p>
 
         <div class='answer-buttons' style="text-align: center; position: fixed; left: 400px;">
         <ul id='choices'></ul>
         </div>
 
-        <ul id='leaderboard'>   
+        <ul id='leaderboard' style="padding-left: 10px">   
         </ul>
     </div>
 

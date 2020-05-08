@@ -1,4 +1,13 @@
 
+header {
+  padding: 25px;
+  background-color: cornflowerblue;
+  border: dashed;
+  border-width: 3px;
+  border-color: #127CE7;
+}
+
+/* 
 .container {
   display: grid;
   grid-template-columns: 1fr, 1fr, 1fr;
@@ -38,4 +47,4 @@
 
 #leaderboard {
   grid-area: m;
-}
+} */
