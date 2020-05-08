@@ -172,6 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 let answerChoices = document.getElementById('choices')
                 questionArea.innerText = ''  
                 answerChoices.innerHTML = ''
+                alert(
+                    `Game Over! Your score was ${currentScore} \n Please enter a new user name and play again!`
+                )
                 // let gameOverMessage = document.getElementById('exampleModal1');
                 // gameOverMessage.removeAttribute('hidden');
             }
@@ -189,6 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 let answerChoices = document.getElementById('choices')
                 questionArea.innerText = ''  
                 answerChoices.innerHTML = ''
+                alert(
+                    `Game Over! Your score was ${currentScore} \n Please enter a new user name and play again!`
+                )
                 // let gameOverMessage = document.getElementById('exampleModal1');
                 // gameOverMessage.removeAttribute('hidden');
 
