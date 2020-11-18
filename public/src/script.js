@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentScore = 0;
         let userObj = {name: userName, score: currentScore}
 
-        fetch('http://localhost:3000/users', {
+        // fetch('http://localhost:3000/users', {
+        fetch('https://floating-island-41995.herokuapp.com/users', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin' : '*',
@@ -63,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getUsers() {
         let userArray = [];
-        fetch('http://localhost:3000/users')
+        // fetch('http://localhost:3000/users')
+        fetch('https://floating-island-41995.herokuapp.com/users')
         .then(response => response.json())
         .then(users => {
                 users.sort(function(a, b) {
@@ -204,7 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }    
 
     function updateScore(score, user){
-        fetch(`http://localhost:3000/users/${user}`, {
+        // fetch(`http://localhost:3000/users/${user}`, {
+        fetch(`https://floating-island-41995.herokuapp.com/users/${user}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
